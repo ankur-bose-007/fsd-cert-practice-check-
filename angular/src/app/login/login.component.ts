@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { User } from '../Model/User';
 import { LoginService } from './login.service';
 
@@ -11,8 +11,8 @@ import { LoginService } from './login.service';
 export class LoginComponent implements OnInit {
   
   loginFormGroup=this.fb.group({
-    email:[''],
-    password:['']
+    email:['',[Validators.required,Validators.minLength(7),Validators.pattern('^([a-zA-Z0-9_\.-]+)@([a-zA-Z0-9_\.-]+).([a-zA-Z]{2,5})$')]],
+    password:['',Validators.required]
   });
 
 
@@ -20,6 +20,8 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
   }
+
+  get formValidations(){return this.loginFormGroup.controls}
 
   onLogin(user:User){
     console.log(user);

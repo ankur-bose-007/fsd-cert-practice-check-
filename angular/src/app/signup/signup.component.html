@@ -1,3 +1,4 @@
+<h1> Fsd-certification-test</h1>
 <div class="container h-100 mt-5">
 <div class="row h-100 justify-content-center align-items-center">
 <div class="card" style="width: 23rem;">
@@ -5,14 +6,33 @@
     <h3 class="card-title" style="text-align:center">SignUp</h3><hr>
     <form [formGroup]="signUpFormGroup" (ngSubmit)="onSubmit(signUpFormGroup.value)">
       <div class="form-group">
-        
+
+
+
         <label for="Email" class="font-weight-bold">Email</label>
-        <input type="email" class="form-control" id="InputEmail" placeholder="Enter Email" formControlName="email"><br>
-        <div *ngIf="formValidations.email.errors.pattern">
-          Pattern didn't match
-        </div>
+        <input type="email" class="form-control" [ngClass]="{'is-invalid':formValidations.email.invalid && (formValidations.email.touched || formValidations.email.dirty)}" id="InputEmail" placeholder="Enter Email" formControlName="email">
+        <div class="invalid-feedback" *ngIf="formValidations.email.invalid && (formValidations.email.touched || formValidations.email.dirty)">
+            <div *ngIf="formValidations.email.errors.required">
+                Email is required
+            </div>
+            <div *ngIf="formValidations.email.errors.pattern">
+                Email must be valid
+            </div>
+        </div><br>
+
+
+
         <label for="Password" class="font-weight-bold">Password</label>
-        <input type="password" class="form-control" id="InputPassword" placeholder="Enter Password" formControlName="password"><br>
+        <input type="password" class="form-control" [ngClass]="{'is-invalid':formValidations.password.invalid && (formValidations.password.touched || formValidations.password.dirty)}" id="InputPassword" placeholder="Enter Password" formControlName="password">
+        <div class="invalid-feedback" *ngIf="formValidations.password.invalid && (formValidations.password.touched || formValidations.password.dirty)">
+            <div *ngIf="formValidations.password.errors.required">
+                Password is required
+            </div>
+            <div *ngIf="formValidations.password.errors.pattern">
+                Pattern didn't match
+            </div>
+        </div><br>
+
 
         <label for="Gender" class="font-weight-bold">Gender</label>
         <div class="radio">
@@ -21,11 +41,21 @@
         <div class="radio">
             <label><input type="radio" value="female" name="gender" formControlName="gender">&nbsp;Female</label>
         </div>
-        
+
+
+
         <label for="Age" class="font-weight-bold">Age</label>
-        <input type="number" class="form-control" id="InputAge" placeholder="Enter Age" min=1 formControlName="age"><br>
+        <input type="number" class="form-control" [ngClass]="{'is-invalid':formValidations.age.invalid && (formValidations.age.touched || formValidations.age.dirty)}" id="InputAge" placeholder="Enter Age" min=1 formControlName="age">
+        <div class="invalid-feedback" *ngIf="formValidations.age.invalid && formValidations.age.touched">    
+            <div *ngIf="formValidations.age.errors.required">
+                Age is required
+            </div>
+        </div><br>
+
         <a routerLink="/">Already have an account?</a>
-        <button type="submit" class="btn btn-success float-right">Sign Up</button>&nbsp;
+
+        
+        <button [disabled]="signUpFormGroup.invalid" type="submit" class="btn btn-success float-right">Sign Up</button>&nbsp;
     </div>
 </form>
 </div>

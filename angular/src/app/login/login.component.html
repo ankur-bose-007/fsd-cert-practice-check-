@@ -1,3 +1,4 @@
+<h1> Fsd-certification-test</h1>
 <div class="container h-100 mt-5">
 <div class="row h-100 justify-content-center align-items-center">
 <div class="card" style="width: 23rem;">
@@ -7,12 +8,24 @@
       <div class="form-group">
         
         <label for="Email" class="font-weight-bold">Email</label>
-        <input type="email" class="form-control" id="InputEmail" placeholder="Enter email" formControlName="email"><br>
-     
+        <input type="email" class="form-control" [ngClass]="{'is-invalid':formValidations.email.invalid && (formValidations.email.touched || formValidations.email.dirty)}" id="InputEmail" placeholder="Enter email" formControlName="email">
+        <div class="invalid-feedback" *ngIf="formValidations.email.invalid && (formValidations.email.touched || formValidations.email.dirty)">
+          <div *ngIf="formValidations.email.errors.required">
+            Email is required
+          </div>
+          <div *ngIf="formValidations.email.errors.pattern">
+            Email must be valid
+          </div>
+        </div><br>
         <label for="Password" class="font-weight-bold">Password</label>
-        <input type="password" class="form-control" id="InputPassword" placeholder="Enter Password" formControlName="password"><br>
+        <input type="password" class="form-control" [ngClass]="{'is-invalid':formValidations.password.invalid && (formValidations.password.touched || formValidations.password.dirty)}" id="InputPassword" placeholder="Enter Password" formControlName="password">
+        <div class="invalid-feedback" *ngIf="formValidations.password.invalid && (formValidations.password.touched || formValidations.password.dirty)" >
+          <div *ngIf="formValidations.password.errors.required">
+            Password is required
+          </div>
+        </div><br>
         <a routerLink="/signup">Don't have an account?</a>
-        <button type="submit" class="btn btn-success float-right">Login</button>
+        <button [disabled]="loginFormGroup.invalid" type="submit" class="btn btn-success float-right">Login</button>
       </div>
     
     </form>   
