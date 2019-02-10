@@ -28,14 +28,14 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/login").permitAll()
                 .antMatchers(HttpMethod.GET,"/test").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(errorHandler)
                 .and()
-                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-       
+//                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(getJWTAuthenticationFilter())
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 // this disables session creation on Spring Security
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -50,6 +50,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
     return source;
+  }
+  public JWTAuthenticationFilter getJWTAuthenticationFilter() throws Exception {
+      final JWTAuthenticationFilter filter = new JWTAuthenticationFilter(authenticationManager());
+      filter.setFilterProcessesUrl("/user/login");
+      return filter;
   }
   
 }

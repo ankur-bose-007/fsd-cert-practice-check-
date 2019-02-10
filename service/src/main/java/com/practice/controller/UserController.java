@@ -35,6 +35,10 @@ public class UserController extends GlobalErrorHandlerController{
 		user = userService.getUserDetails(email);
 		return user; 
 	}
+	@PostMapping("login")
+	public ResponseEntity<?> login() {
+		return new ResponseEntity("User logged in",HttpStatus.OK);
+	}
 	@PostMapping("signup")
 	public ResponseEntity<User> signup(@Valid @RequestBody User user){
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));

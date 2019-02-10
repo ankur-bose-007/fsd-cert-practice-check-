@@ -53,7 +53,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sign(HMAC512(SECRET.getBytes()));
 		response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
 		response.setStatus(HttpServletResponse.SC_CREATED);
-//		chain.doFilter(request, response);
+		System.out.println("successful");
+		chain.doFilter(request, response);
 	}
 	@Override
 	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
@@ -79,16 +80,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			}
 		}
 		catch(AuthenticationException failed){
-			System.out.println(failed);
 //			unsuccessfulAuthentication(request,response,failed);
 //			return;
-			throw new RuntimeException(failed);
+			throw failed;
 		}
 		catch(Exception e){
 			throw new RuntimeException(e);
 		}
 			successfulAuthentication(request, response, chain, authResult);
-//			chain.doFilter(request, response);
+			chain.doFilter(request, response);
 	}
 
 
