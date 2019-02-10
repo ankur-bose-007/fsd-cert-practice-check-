@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -16,33 +16,32 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.entity.User;
 
 
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
+@RunWith(SpringRunner.class)
 @SpringBootTest
 public class UserControllerTestClass {
 	@Autowired
 	private WebApplicationContext webApplicationContext;
-	String userObject;
-	String userObject2;
-	User user;
+	User user,user2;
 	ObjectMapper mapper;
 	private MockMvc mockMvc;
 	@Before
 	public void initialize(){
 		mockMvc=MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
+		//initializing first user object
 		user=new User();
 		user.setAge(12);
-		user.setEmail("saadsdsads");
+		user.setEmail("jeet.ankur007@gmail.com");
 		user.setGender("male");
-		user.setPassword("dddasasd");
+		user.setPassword("Password@10");
 		mapper=new ObjectMapper();
-		userObject="{\"email\":\"dass\"" + ","
-				+ "\"password\":\"sdadasdas\"" + ","
-				+ "\"gender\":\"male\"" + "}" + ","
-				+ "\"age\":21" + "}";
-		userObject2="{\"email\":\"bose.ankur007\"" + ","
-				+ "\"password\":\"dsadadsa\"" + ","
-				+ "\"gender\":\"male\"" + "}" + ","
-				+ "\"age\":19" + "}";
+		
+		//initializing second user object
+		user2=new User();
+		user2.setAge(21);
+		user2.setEmail("bose.ankur007@gmail.com");
+		user2.setGender("male");
+		user2.setPassword("Password@46");
 	}
 	@Test
 	public void testIfCreated() throws Exception {
@@ -54,7 +53,7 @@ public class UserControllerTestClass {
 	@Test
 	public void testIfConflict() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/user/signup")
-		.content(userObject)
+		.content(mapper.writeValueAsString(user2))
 		.contentType("application/json;charset=UTF-8"))
 		.andExpect(MockMvcResultMatchers.status().isConflict());
 	}

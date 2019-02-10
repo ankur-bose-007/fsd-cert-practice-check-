@@ -32,9 +32,29 @@ public class ServiceTestClass{
 	}
 	
 	@Test
-	public void successfulsignupTest(){
+	public void successfulSignUpTest(){
 		when(userDao.signup(user)).thenReturn(user);
 		Assert.assertEquals(user,userService.signup(user));
 		verify(userDao).signup(user);
+	}
+	@Test
+	public void unsuccessfulSignUpTest() {
+		Assert.assertEquals(null,userService.signup(null));
+	}
+	@Test
+	public void successfullyGetUserDetails() {
+		when(userDao.findByUsername(user.getEmail())).thenReturn(user);
+		Assert.assertEquals(user, userService.getUserDetails(user.getEmail()));
+		verify(userDao).findByUsername(user.getEmail());
+	}
+	@Test
+	public void unsuccessfullyGetUserDetails() {
+		when(userDao.findByUsername(user.getEmail())).thenReturn(null);
+		Assert.assertEquals(null, userService.getUserDetails(user.getEmail()));
+		verify(userDao).findByUsername(user.getEmail());
+	}
+	@Test
+	public void nullGetUserDetails() {
+		Assert.assertEquals(null,userService.getUserDetails(null));
 	}
 }

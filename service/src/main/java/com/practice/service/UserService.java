@@ -14,10 +14,13 @@ public class UserService {
 	private UserDao userDao;
 	
 	public User signup(User user){
+		if(user==null)
+			return null;
 		return userDao.signup(user);
 	}
-	
 	public User getUserDetails(String email){
+		if(email==null)
+			return null;
 		return userDao.findByUsername(email);
 	}
 }
