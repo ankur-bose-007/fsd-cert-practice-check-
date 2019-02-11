@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
 export class SignupComponent implements OnInit {
 
   signUpFormGroup=this.fb.group({
-    email:['',[Validators.required,Validators.pattern('^([a-zA-Z0-9_\.-]+)@([a-zA-Z0-9_\.-]+).([a-zA-Z]{2,5})$')]],
+    email:['',[Validators.required,Validators.pattern('^([a-zA-Z0-9_\.-]+)@([a-zA-Z0-9_\.-]+)\\.([a-zA-Z]{2,5})$')]],
     password:['',[Validators.required,Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$')]],
     gender:[''],
-    age:['',Validators.required]
+    age:['',[Validators.required,Validators.min(10)]]
   });
   message:String;
   statusCode:Number;

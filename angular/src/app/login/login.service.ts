@@ -10,7 +10,7 @@ export class LoginService {
   constructor(private http:HttpClient) { }
 
   login(user:User){
-    return this.http.post("login",user,{observe:'response'});
+    return this.http.post("user/login",user,{responseType:'text',observe:'response'});
   }
   
 }

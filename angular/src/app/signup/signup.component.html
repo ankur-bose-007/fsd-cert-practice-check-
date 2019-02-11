@@ -1,6 +1,6 @@
 <h1> Fsd-certification-test</h1>
 <div class="container h-100 mt-5">
-<div class="row h-100 justify-content-center align-items-center">
+<div class="row justify-content-center align-items-center">
 <div class="card" style="width: 23rem;">
     <div class="card-body">
     <h3 class="card-title" style="text-align:center">SignUp</h3><hr>
@@ -50,12 +50,15 @@
             <div *ngIf="formValidations.age.errors.required">
                 Age is required
             </div>
+            <div *ngIf="formValidations.age.errors.min">
+                Age cannot be less than 10
+            </div>
         </div><br>
 
         <a routerLink="/">Already have an account?</a>
 
         
-        <button [disabled]="signUpFormGroup.invalid" type="submit" class="btn btn-success float-right">Sign Up</button>&nbsp;
+        <button name="submitButton" [disabled]="signUpFormGroup.invalid" type="submit" class="btn btn-success float-right">Sign Up</button>&nbsp;
     </div>
 </form>
 </div>

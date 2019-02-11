@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import static org.hamcrest.core.StringContains.containsString;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.entity.User;
@@ -65,21 +66,23 @@ public class UserControllerTestClass {
 		user5.setPassword("Password");
 	}
 	@Test
-	public void testIfCreated() throws Exception {
+	public void testIfUserCreated() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/user/signup")
 		.content(mapper.writeValueAsString(user))
 		.contentType("application/json;charset=UTF-8"))
+		.andExpect(MockMvcResultMatchers.content().string(containsString("User Registered Successfully")))
 		.andExpect(MockMvcResultMatchers.status().isCreated());
 	}
 	@Test
-	public void testIfConflict() throws Exception {
+	public void testforUserConflict() throws Exception {
 		mockMvc.perform(MockMvcRequestBuilders.post("/user/signup")
 		.content(mapper.writeValueAsString(user2))
 		.contentType("application/json;charset=UTF-8"))
+		.andExpect(MockMvcResultMatchers.content().string(containsString("User Already Exists")))
 		.andExpect(MockMvcResultMatchers.status().isConflict());
 	}
 	@Test
-	public void testIfNull() throws Exception{
+	public void testIfUserNull() throws Exception{
 		mockMvc.perform(MockMvcRequestBuilders.post("/user/signup")
 		.content(mapper.writeValueAsString(user3))
 		.contentType("application/json;charset=UTF-8"))
@@ -96,6 +99,24 @@ public class UserControllerTestClass {
 	public void testIfPasswordPatternWrong() throws Exception{
 		mockMvc.perform(MockMvcRequestBuilders.post("/user/signup")
 		.content(mapper.writeValueAsString(user5))
+		.contentType("application/json;charset=UTF-8"))
+		.andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
+	@Test
+	public void successfulUserDetailsTest() throws Exception{
+		mockMvc.perform(MockMvcRequestBuilders.get("/user/userDetails/bose.ankur007@gmail.com")
+		.contentType("application/json;charset=UTF-8"))
+		.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+	@Test
+	public void unsuccessfulUserDetailsTest() throws Exception{
+		mockMvc.perform(MockMvcRequestBuilders.get("/user/userDetails/jeet.ankur007@gmail.com")
+		.contentType("application/json;charset=UTF-8"))
+		.andExpect(MockMvcResultMatchers.status().isBadRequest());
+	}
+	@Test
+	public void testForUserDetailsEmailEmpty() throws Exception{
+		mockMvc.perform(MockMvcRequestBuilders.get("/user/userDetails/''")
 		.contentType("application/json;charset=UTF-8"))
 		.andExpect(MockMvcResultMatchers.status().isBadRequest());
 	}

@@ -30,22 +30,24 @@ public class UserController extends GlobalErrorHandlerController{
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	@GetMapping("userDetails/{email}")
-	public User getUserDetails(@PathVariable("email") String email){
+	public ResponseEntity<User> getUserDetails(@PathVariable("email") String email){
 		User user=null;
 		user = userService.getUserDetails(email);
-		return user; 
+		if(user==null)
+			return new ResponseEntity<User>(user,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<User>(user,HttpStatus.OK);
 	}
 	@PostMapping("login")
-	public ResponseEntity<?> login() {
-		return new ResponseEntity("User logged in",HttpStatus.OK);
+	public ResponseEntity<String> login() {
+		return new ResponseEntity<String>("User logged in",HttpStatus.OK);
 	}
 	@PostMapping("signup")
-	public ResponseEntity<User> signup(@Valid @RequestBody User user){
+	public ResponseEntity<String> signup(@Valid @RequestBody User user){
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
 		user=userService.signup(user);
 		if(user!=null)
-			return new ResponseEntity<User>(user,HttpStatus.CREATED);
+			return new ResponseEntity<String>("User Registered Successfully",HttpStatus.CREATED);
 		
-		return new ResponseEntity<User>(user,HttpStatus.CONFLICT);
+		return new ResponseEntity<String>("User Already exists",HttpStatus.CONFLICT);
 	}
 }
