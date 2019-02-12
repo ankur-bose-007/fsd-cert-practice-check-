@@ -1,4 +1,18 @@
-<p>
-  landing works!
-</p>
 <button (click)="LogOut()" class="btn btn-outline-danger" name="LogOut">Log Out</button>
+
+
+<div class="jumbotron col-md-8 mx-auto">
+  <div *ngFor="let article of mArticles">
+      <div [ngStyle]="{'background-image': 'url(../assets/images/'+ article.source.id +'.png)'}"
+        class="example-header-image"></div>
+      <h4 class="card-title">{{article.title}}</h4>
+      <h6 class="card-subtitle mb-2 text-muted">{{article.source.name}}</h6>
+      <img mat-card-image class="img-article" src={{article.urlToImage}} alt="">
+      <div class="card-body">
+        <p>
+          {{article.description}}
+        </p>
+      </div>
+    <br>
+  </div>
+</div>
