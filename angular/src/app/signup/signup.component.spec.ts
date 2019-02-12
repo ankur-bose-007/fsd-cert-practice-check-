@@ -25,7 +25,6 @@ fdescribe('SignupComponent', () => {
     debugElement=fixture.debugElement;
     component = fixture.componentInstance;
     signUpService=debugElement.injector.get(SignupService);
-    serviceSpy=spyOn(signUpService,'onSignup').and.callThrough();
     fixture.detectChanges();
   });
 
@@ -82,9 +81,8 @@ fdescribe('SignupComponent', () => {
     let age=component.signUpFormGroup.controls['age'];
     age.setValue(11);
 
-    debugElement.query(By.css('button.btn')).triggerEventHandler('click',null);
-    fixture.whenStable().then(()=>{
-      return expect(component.onSubmit).toHaveBeenCalled();
-    });
+    serviceSpy=spyOn(signUpService,'onSignup').and.callThrough();
+    debugElement.query(By.css('form')).triggerEventHandler('submit',null);
+    expect(serviceSpy).toHaveBeenCalled();
   }));
 });

@@ -33,6 +33,11 @@ export class SignupComponent implements OnInit {
         alert("Successfully Registered");
         this.router.navigate(['']);
       }
-    },error=>{alert("Email Id Already Exists")});
+    },error=>{
+      if(error.status==409)
+        alert("Email Id Already Exists")
+      else
+        alert("Something went wrong");
+    });
   }
 }

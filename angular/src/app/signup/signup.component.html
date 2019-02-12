@@ -36,10 +36,10 @@
 
         <label for="Gender" class="font-weight-bold">Gender</label>
         <div class="radio">
-            <label><input type="radio" value="male" name="gender" formControlName="gender">&nbsp;Male</label>
+            <label><input id="GenderMale" type="radio" value="male" name="gender" formControlName="gender">&nbsp;Male</label>
         </div>
         <div class="radio">
-            <label><input type="radio" value="female" name="gender" formControlName="gender">&nbsp;Female</label>
+            <label><input id="GenderFemale" type="radio" value="female" name="gender" formControlName="gender">&nbsp;Female</label>
         </div>
 
 
@@ -55,7 +55,7 @@
             </div>
         </div><br>
 
-        <a routerLink="/">Already have an account?</a>
+        <a id="login" routerLink="/">Already have an account?</a>
 
         
         <button name="submitButton" [disabled]="signUpFormGroup.invalid" type="submit" class="btn btn-success float-right">Sign Up</button>&nbsp;
